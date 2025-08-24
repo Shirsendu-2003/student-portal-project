@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <title>Pizza Billing System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            background: url('Pizza.jpeg') no-repeat center center fixed;
+            align-items: center;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            background-color: #ffffff;
+            background: url('Pizza.jpeg') no-repeat center center fixed;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #444;
+            font-size: 16px;
+        }
+
+        select, input[type="checkbox"] {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        pre#billOutput {
+            background-color: #fff;
+            padding: 20px;
+            border-left: 5px solid #28a745;
+            border-radius: 6px;
+            font-size: 16px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        #pizzaType{
+              font-style:italic;
+              color:darkblue;
+              cursor: pointer;
+            }
+            #generateBtn{
+              border-radius: 10px;
+              cursor: pointer;
+            }
+            .form-group{
+              box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+            }h2{
+              font-family: 'Arial Rounded MT Bold', 'Helvetica', sans-serif;
+              font-size: 40px;
+              font-weight: bold;
+              color: #000000; /* Black text */
+              position: relative;
+            }
+            h2{
+              color: rgb(68, 10, 10);
+              content: '';
+
+                width: 120px;
+                background-color: #ff9900;
+                border-radius: 50px;
+                bottom: -10px;
+                left: 10px;
+                transform: rotate(5deg); /* mimic the smile */
+
+            }
+            #pizzaType:hover{
+              color: rgb(174, 48, 69);
+              background: rgb(188, 215, 206)  ;
+            }
+            #downloadPdfBtn{
+              background-color: #a72828;
+            }
+            #generateBtn:hover{
+              background-color: rgb(109, 14, 233);
+            }
+            input[type="checkbox"]{
+              transform: scale(1.5);
+              margin: 2px;
+              color: #28a745;
+            }
+           #pizzatype1{
+            font-size: large;
+            font-weight: 750;
+            font-style: oblique;
+           }
+    </style>
+</head>
+<body>
+<h2>Pizza Order</h2>
+
+<div class="form-group">
+    <label id="pizzatype1" for="pizzaType">Pizza Type:</label>
+    <select id="pizzaType">
+        <option value="VEG">Veg Pizza</option>
+        <option value="NON_VEG">Non-Veg Pizza</option>
+        <option value="DELUX_VEG">Deluxe Veg Pizza</option>
+        <option value="DELUX_NON_VEG">Deluxe Non-Veg Pizza</option>
+    </select>
+
+    <label><input type="checkbox" id="extraCheese"> Add Extra Cheese (₹100)</label>
+    <label><input type="checkbox" id="extraToppings"> Add Extra Toppings (₹150)</label>
+    <label><input type="checkbox" id="takeaway"> Add Takeaway (₹20)</label>
+
+    <button id="generateBtn" onclick="generateBill()">Generate Bill</button><br>
+    <button id="downloadPdfBtn" onclick="downloadPDF()" disabled>Download PDF</button>
+
+</div>
+
+<pre id="billOutput"></pre>
+
+<script>
+    let lastBillText = ""; // store the latest bill for PDF
+
+    function generateBill() {
+        const pizzaType = document.getElementById("pizzaType").value;
+        const extraCheese = document.getElementById("extraCheese").checked;
+        const extraToppings = document.getElementById("extraToppings").checked;
+        const takeaway = document.getElementById("takeaway").checked;
+        const output = document.getElementById("billOutput");
+        const button = document.getElementById("generateBtn");
+        const downloadBtn = document.getElementById("downloadPdfBtn");
+
+        button.disabled = true;
+        downloadBtn.disabled = true;
+        output.innerText = "🕐 Calculating your pizza bill...";
+
+        fetch("http://localhost:8082/api/generateBill", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                pizzaType,
+                extraCheese,
+                extraToppings,
+                takeaway
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to generate bill.");
+            }
+            return response.text();
+        })
+        .then(data => {
+            lastBillText = data;
+            output.innerText = "✅ Bill Generated:\n\n" + data;
+            downloadBtn.disabled = false;
+        })
+        .catch(error => {
+            output.innerText = "❌ Error generating bill. Please try again.";
+            console.error("Bill Generation Error:", error);
+        })
+        .finally(() => {
+            button.disabled = false;
+        });
+    }
+
+    async function downloadPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        doc.setFont("courier", "normal");
+        doc.setFontSize(12);
+
+        const lines = lastBillText.split("\n");
+        let y = 20;
+
+        doc.text("Pizza Bill", 15, 10);
+        lines.forEach((line, index) => {
+            doc.text(line, 15, y + index * 8);
+        });
+
+        doc.save("Pizza_Bill.pdf");
+    }
+</script>
+
+
+</body>
+</html>

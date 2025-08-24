@@ -1,0 +1,44 @@
+.header {
+  background-color: #1e3a8a;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.nav-button {
+  padding: 0.5rem 1.25rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-button.login {
+  background-color: #2563eb; 
+  color: white;
+}
+
+.nav-button.login:hover {
+  background-color: #1d4ed8;
+}
+
+.nav-button.register {
+  background-color: #4b5563; 
+  color: white;
+}
+
+.nav-button.register:hover {
+  background-color: #374151;
+}

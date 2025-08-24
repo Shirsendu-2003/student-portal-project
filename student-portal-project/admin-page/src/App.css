@@ -1,0 +1,31 @@
+/* Make body cover full height with background */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #ecf0f1; /* light grey background */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Make root grow to push footer down */
+#root {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Optional wrapper for content */
+.main-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+/* Footer styling */
+footer {
+  text-align: center;
+  background: #34495e;
+  color: #bdc3c7;
+  padding: 20px;
+  margin-top: auto;
+}

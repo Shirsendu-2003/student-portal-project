@@ -1,0 +1,84 @@
+/* Centering & background */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  width: 50vh;
+  background-color: #dce1e5;
+  padding: 1rem;
+  margin-left: 36%;
+  margin-bottom: 50px;
+  font-family: Arial, serif;
+  
+}
+
+/* Header */
+.admin-log {
+  font-size: 2rem;
+  color: #7f202e;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Input field wrapper */
+.input-group {
+  width: 90%;
+  max-width: 400px;
+  margin-bottom: 1rem;
+}
+
+/* Input styling */
+.input-con {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f0f8ff;
+  box-sizing: border-box;
+}
+
+/* Button */
+.loging {
+  width: 90%;
+  max-width: 400px;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #003366;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.loging:hover {
+  background-color: #0055a5;
+}
+
+/* Footer spacing */
+.footer {
+  margin-top: 2rem;
+  text-align: center;
+  color: #666;
+}
+.back-button {
+  margin-top: 1rem;
+  width: 90%;
+  max-width: 400px;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #ccc;
+  color: #333;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #aaa;
+}
+
