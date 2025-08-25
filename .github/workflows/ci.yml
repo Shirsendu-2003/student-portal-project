@@ -1,0 +1,37 @@
+name: Student Portal CI/CD
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # ---------- Backend (Spring Boot with JDK 21) ----------
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Build Spring Boot app
+        run: mvn -B package --file pom.xml
+
+      # ---------- Frontend (React) ----------
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install and build React app
+        working-directory: Student-Form-Frontend
+        run: |
+          npm install
+          npm run build
