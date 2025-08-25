@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest   # ✅ You said Windows server, so use windows-latest
 
     steps:
       - name: Checkout code
@@ -23,10 +23,10 @@ jobs:
           cache: maven
 
       - name: Build Backend with Maven
-        run: mvn -B clean install --file student-portal-project/student-portal-project/pom.xml
+        run: mvn -B clean install --file student-portal-project/student-form/pom.xml
 
       - name: Run Backend Tests
-        run: mvn -B test --file student-portal-project/student-portal-project/pom.xml
+        run: mvn -B test --file student-portal-project/student-form/pom.xml
 
       # ---------- Frontend (React Apps) ----------
       - name: Set up Node.js
@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: backend-jar
-          path: student-portal-project/student-portal-project/target/*.jar
+          path: student-portal-project/student-form/target/*.jar
 
       - name: Upload Frontend Builds
         uses: actions/upload-artifact@v4
